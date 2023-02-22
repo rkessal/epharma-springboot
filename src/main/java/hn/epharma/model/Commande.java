@@ -3,6 +3,11 @@ package hn.epharma.model;
 import java.util.Collection;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Version;
 
 @Entity
 public class Commande {
@@ -23,6 +28,7 @@ public class Commande {
 		this.prixTotal = prixTotal;
 	}
 
+	@Id
 	public int getId() {
 		return id;
 	}
@@ -31,6 +37,7 @@ public class Commande {
 		this.id = id;
 	}
 
+	@OneToMany(mappedBy = "commande")
 	public Collection<Ligne> getLignes() {
 		return lignes;
 	}
@@ -47,6 +54,8 @@ public class Commande {
 		this.prixTotal = prixTotal;
 	}
 
+	@ManyToOne()
+	@JoinColumn(name = "client_id")
 	public Client getClient() {
 		return client;
 	}
@@ -55,6 +64,7 @@ public class Commande {
 		this.client = client;
 	}
 
+	@Version
 	public int getVersion() {
 		return version;
 	}

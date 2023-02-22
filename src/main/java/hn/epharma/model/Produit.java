@@ -1,7 +1,11 @@
 package hn.epharma.model;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Version;
 
 @Entity
@@ -12,8 +16,10 @@ public class Produit {
 	private double prix;
 	private String image;
 	private String categorie;
+	private Collection<Ligne> lignes;
+
 	private int version;
-	
+
 	public Produit(int id, String nom, String description, double prix, String image, String categorie) {
 		super();
 		this.id = id;
@@ -22,17 +28,17 @@ public class Produit {
 		this.prix = prix;
 		this.image = image;
 		this.categorie = categorie;
+		this.lignes = new ArrayList<Ligne>();
 	}
-	
+
 	public Produit() {
-		super();
 	}
 
 	@Id
 	public int getId() {
 		return id;
 	}
-	
+
 	public void setId(int id) {
 		this.id = id;
 	}
@@ -76,7 +82,7 @@ public class Produit {
 	public void setCategorie(String categorie) {
 		this.categorie = categorie;
 	}
-	
+
 	@Version
 	public int getVersion() {
 		return version;
@@ -84,6 +90,15 @@ public class Produit {
 
 	public void setVersion(int version) {
 		this.version = version;
+	}
+
+	@OneToMany(mappedBy = "produit")
+	public Collection<Ligne> getLignes() {
+		return lignes;
+	}
+
+	public void setLignes(Collection<Ligne> lignes) {
+		this.lignes = lignes;
 	}
 
 	@Override
