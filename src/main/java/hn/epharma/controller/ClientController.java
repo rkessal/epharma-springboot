@@ -29,7 +29,7 @@ public class ClientController {
 	private ClientRepository clientRepository;
 
 	// méthode pour récupérer tous les clients
-	@GetMapping("/")
+	@GetMapping("")
 	@JsonView(JsonViews.Common.class)
 	public List<Client> getAllClients() {
 		return clientRepository.findAll();
@@ -49,13 +49,15 @@ public class ClientController {
 	}
 
 	// méthode pour ajouter un nouveau client
-	@PostMapping("/")
+	@PostMapping("")
+	@JsonView(JsonViews.ClientWithCommand.class)
 	public Client addClient(@RequestBody Client client) {
 		return clientRepository.save(client);
 	}
 
 	// méthode pour mettre à jour un client existant
 	@PutMapping("/{id}")
+	@JsonView(JsonViews.ClientWithCommand.class)
 	public ResponseEntity<Client> updateClient(@PathVariable int id, @RequestBody Client clientDetails) {
 		Optional<Client> client = clientRepository.findById(id);
 
@@ -73,6 +75,7 @@ public class ClientController {
 
 	// méthode pour supprimer un client
 	@DeleteMapping("/{id}")
+	@JsonView(JsonViews.ClientWithCommand.class)
 	public ResponseEntity<HttpStatus> deleteClient(@PathVariable int id) {
 		Optional<Client> client = clientRepository.findById(id);
 
