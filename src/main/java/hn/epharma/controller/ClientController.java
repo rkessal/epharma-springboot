@@ -1,65 +1,74 @@
 package hn.epharma.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import hn.epharma.model.Client;
 import hn.epharma.repo.ClientRepository;
 
+import java.util.List;
+import java.util.Optional;
+
 @RestController
-@RequestMapping("clients")
+@RequestMapping("/api/clients")
 public class ClientController {
 
-	@Autowired
-	private ClientRepository clientRepository;
+    @Autowired
+    private ClientRepository clientRepository;
 
-	// méthode pour récupérer tous les clients
-	@GetMapping("/")
-	public List<Client> getAllClients() {
-		return clientRepository.findAll();
-	}
+    // méthode pour récupérer tous les clients
+    @GetMapping("/")
+    public List<Client> getAllClients() {
+        return clientRepository.findAll();
+    }
 
-	// méthode pour récupérer un client par ID
-	@GetMapping("/{id}")
-	public Client getClientById(@PathVariable int id) {
-		return clientRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Client", "id", id));
-	}
+    // méthode pour récupérer un client par ID
+    @GetMapping("/{id}")
+    public ResponseEntity<Client> getClientById(@PathVariable int id) {
+        Optional<Client> client = clientRepository.findById(id);
 
-	// méthode pour ajouter un nouveau client
-	@PostMapping("/")
-	public Client addClient(@RequestBody Client client) {
-		return clientRepository.save(client);
-	}
+        if (client.isPresent()) {
+            return new ResponseEntity<>(client.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 
-	// méthode pour mettre à jour un client existant
-	@PutMapping("/{id}")
-	public Client updateClient(@PathVariable int id, @RequestBody Client clientDetails) {
-		Client client = clientRepository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("Client", "id", id));
+    // méthode pour ajouter un nouveau client
+    @PostMapping("/")
+    public Client addClient(@RequestBody Client client) {
+        return clientRepository.save(client);
+    }
 
-		client.setPass(clientDetails.getPass());
-		client.setNom(clientDetails.getNom());
-		client.setPrenom(clientDetails.getPrenom());
-		client.setAdresse(clientDetails.getAdresse());
+    // méthode pour mettre à jour un client existant
+    @PutMapping("/{id}")
+    public ResponseEntity<Client> updateClient(@PathVariable int id, @RequestBody Client clientDetails) {
+        Optional<Client> client = clientRepository.findById(id);
 
-		return clientRepository.save(client);
-	}
+        if (client.isPresent()) {
+            Client updatedClient = client.get();
+            updatedClient.setPass(clientDetails.getPass());
+            updatedClient.setNom(clientDetails.getNom());
+            updatedClient.setPrenom(clientDetails.getPrenom());
+            updatedClient.setAdresse(clientDetails.getAdresse());
+            return new ResponseEntity<>(clientRepository.save(updatedClient), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 
-	// méthode pour supprimer un client
-	@DeleteMapping("/{id}")
-	public void deleteClient(@PathVariable int id) {
-		Client client = clientRepository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("Client", "id", id));
+    // méthode pour supprimer un client
+    @DeleteMapping("/{id}")
+    public ResponseEntity<HttpStatus> deleteClient(@PathVariable int id) {
+        Optional<Client> client = clientRepository.findById(id);
 
-		clientRepository.delete(client);
-	}
+        if (client.isPresent()) {
+            clientRepository.delete(client.get());
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 }
