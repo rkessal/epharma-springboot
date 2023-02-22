@@ -8,13 +8,21 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Version;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 @Entity
 public class Produit {
+	@JsonView(JsonViews.Common.class)
 	private int id;
+	@JsonView(JsonViews.Common.class)
 	private String nom;
+	@JsonView(JsonViews.Common.class)
 	private String description;
+	@JsonView(JsonViews.Common.class)
 	private double prix;
+	@JsonView(JsonViews.Common.class)
 	private String image;
+	@JsonView(JsonViews.Common.class)
 	private String categorie;
 	private Collection<Ligne> lignes;
 

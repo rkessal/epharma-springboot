@@ -16,7 +16,7 @@ import hn.epharma.model.Client;
 import hn.epharma.repo.ClientRepository;
 
 @RestController
-@RequestMapping("/api/clients")
+@RequestMapping("clients")
 public class ClientController {
 
 	@Autowired

@@ -16,15 +16,16 @@ public class ConsoleService implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		// TODO Auto-generated method stub
-		System.out.print("Hello World !");
-		//testFindAll();
-		testCreate();
+		System.out.println("Hello World !");
+		testFindAll();
+		//testCreate();
 	}
 
 	public void testFindAll() throws Exception {
 		// TODO Auto-generated method stub
-		System.out.print("FINDALL !!");
-		System.out.print(prepo.findAll());
+		System.out.println("FINDALL START !!!");
+		System.out.println(prepo.findAll());
+		System.out.println("FINDALL END !!!");
 	}
 	
 	public void testCreate() throws Exception {
