@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Version;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 @Entity
 public class Client {
 
@@ -16,6 +18,8 @@ public class Client {
 	private String nom;
 	private String prenom;
 	private String adresse;
+
+	@JsonView(JsonViews.ClientWithCommand.class)
 	private Collection<Commande> commandes;
 
 	private int version;

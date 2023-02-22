@@ -9,11 +9,20 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Version;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 @Entity
 public class Commande {
+	@JsonView(JsonViews.Common.class)
 	private int id;
+
+	@JsonView(JsonViews.Common.class)
 	private Collection<Ligne> lignes;
+
+	@JsonView(JsonViews.Common.class)
 	private double prixTotal;
+
+	@JsonView(JsonViews.CommandeWithClient.class)
 	private Client client;
 
 	private int version;
