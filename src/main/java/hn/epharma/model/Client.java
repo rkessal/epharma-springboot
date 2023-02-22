@@ -13,10 +13,15 @@ import com.fasterxml.jackson.annotation.JsonView;
 @Entity
 public class Client {
 
+	@JsonView(JsonViews.Common.class)
 	private int id;
+	@JsonView(JsonViews.Common.class)
 	private String pass;
+	@JsonView(JsonViews.Common.class)
 	private String nom;
+	@JsonView(JsonViews.Common.class)
 	private String prenom;
+	@JsonView(JsonViews.Common.class)
 	private String adresse;
 
 	@JsonView(JsonViews.ClientWithCommand.class)

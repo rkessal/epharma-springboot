@@ -15,7 +15,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 import hn.epharma.model.Client;
+import hn.epharma.model.JsonViews;
 import hn.epharma.repo.ClientRepository;
 
 @RestController
@@ -27,12 +30,14 @@ public class ClientController {
 
 	// méthode pour récupérer tous les clients
 	@GetMapping("/")
+	@JsonView(JsonViews.Common.class)
 	public List<Client> getAllClients() {
 		return clientRepository.findAll();
 	}
 
 	// méthode pour récupérer un client par ID
 	@GetMapping("/{id}")
+	@JsonView(JsonViews.ClientWithCommand.class)
 	public ResponseEntity<Client> getClientById(@PathVariable int id) {
 		Optional<Client> client = clientRepository.findById(id);
 

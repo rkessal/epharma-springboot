@@ -25,6 +25,7 @@ public class Commande {
 	@JsonView(JsonViews.CommandeWithClient.class)
 	private Client client;
 
+	@JsonView(JsonViews.Common.class)
 	private int version;
 
 	public Commande() {
