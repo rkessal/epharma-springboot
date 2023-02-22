@@ -4,14 +4,23 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Version;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 @Entity
 public class Produit {
+	@JsonView(JsonViews.Common.class)
 	private int id;
+	@JsonView(JsonViews.Common.class)
 	private String nom;
+	@JsonView(JsonViews.Common.class)
 	private String description;
+	@JsonView(JsonViews.Common.class)
 	private double prix;
+	@JsonView(JsonViews.Common.class)
 	private String image;
+	@JsonView(JsonViews.Common.class)
 	private String categorie;
+	@Version
 	private int version;
 	
 	public Produit(int id, String nom, String description, double prix, String image, String categorie) {
@@ -77,7 +86,6 @@ public class Produit {
 		this.categorie = categorie;
 	}
 	
-	@Version
 	public int getVersion() {
 		return version;
 	}
