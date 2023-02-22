@@ -28,11 +28,11 @@ public class Produit {
 		super();
 	}
 
+	@Id
 	public int getId() {
 		return id;
 	}
-
-	@Id
+	
 	public void setId(int id) {
 		this.id = id;
 	}
