@@ -32,7 +32,7 @@ public class ClientController {
 
 	// méthode pour récupérer tous les clients
 	@CrossOrigin
-	@GetMapping("/")
+	@GetMapping("")
 	@JsonView(JsonViews.Common.class)
 	public List<Client> getAllClients() {
 		return clientRepository.findAll();
@@ -54,8 +54,8 @@ public class ClientController {
 
 	// méthode pour ajouter un nouveau client
 	@CrossOrigin
-	@PostMapping("/")
-	@JsonView(JsonViews.Common.class)
+	@PostMapping("")
+	@JsonView(JsonViews.ClientWithCommand.class)
 	public Client addClient(@RequestBody Client client) {
 		return clientRepository.save(client);
 	}
@@ -63,7 +63,7 @@ public class ClientController {
 	// méthode pour mettre à jour un client existant
 	@CrossOrigin
 	@PutMapping("/{id}")
-	@JsonView(JsonViews.Common.class)
+	@JsonView(JsonViews.ClientWithCommand.class)
 	public ResponseEntity<Client> updateClient(@PathVariable int id, @RequestBody Client clientDetails) {
 		Optional<Client> client = clientRepository.findById(id);
 
@@ -82,7 +82,7 @@ public class ClientController {
 	// méthode pour supprimer un client
 	@CrossOrigin
 	@DeleteMapping("/{id}")
-	@JsonView(JsonViews.Common.class)
+	@JsonView(JsonViews.ClientWithCommand.class)
 	public ResponseEntity<HttpStatus> deleteClient(@PathVariable int id) {
 		Optional<Client> client = clientRepository.findById(id);
 
