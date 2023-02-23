@@ -1,7 +1,6 @@
 package hn.epharma.controller;
 
 import java.util.List;
-
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +53,7 @@ public class ClientController {
 		}
 	}
 
+	@CrossOrigin
 	@PostMapping("connexion")
 	@JsonView(JsonViews.ClientWithCommand.class)
 	public ResponseEntity<Client> getClientByEmail(@RequestBody LoginForm loginForm) {
