@@ -20,6 +20,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import hn.epharma.model.Client;
 import hn.epharma.model.JsonViews;
 import hn.epharma.repo.ClientRepository;
+import hn.rayhan.model.form.LoginForm;
 
 @RestController
 @RequestMapping("clients")
@@ -43,6 +44,22 @@ public class ClientController {
 
 		if (client.isPresent()) {
 			return new ResponseEntity<>(client.get(), HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+
+	@PostMapping("connexion")
+	@JsonView(JsonViews.ClientWithCommand.class)
+	public ResponseEntity<Client> getClientByEmail(@RequestBody LoginForm loginForm) {
+		Optional<Client> client = clientRepository.findByEmail(loginForm.getEmail());
+
+		if (client.isPresent()) {
+			Client c = client.get();
+			if (c.getPass().equals(loginForm.getPassword())) {
+				return new ResponseEntity<>(client.get(), HttpStatus.OK);
+			}
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}

@@ -16,6 +16,8 @@ public class Client {
 	@JsonView(JsonViews.Common.class)
 	private int id;
 	@JsonView(JsonViews.Common.class)
+	private String email;
+	@JsonView(JsonViews.Common.class)
 	private String pass;
 	@JsonView(JsonViews.Common.class)
 	private String nom;
@@ -45,6 +47,14 @@ public class Client {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getPass() {
@@ -79,8 +89,9 @@ public class Client {
 		this.adresse = adresse;
 	}
 
-	public Client(int id, String pass, String nom, String prenom, String adresse) {
+	public Client(int id, String pass, String nom, String prenom, String adresse, String email) {
 		this.id = id;
+		this.email = email;
 		this.pass = pass;
 		this.nom = nom;
 		this.prenom = prenom;
@@ -90,12 +101,6 @@ public class Client {
 
 	public Client() {
 		super();
-	}
-
-	@Override
-	public String toString() {
-		return "client [id=" + id + ", pass=" + pass + ", nom=" + nom + ", prenom=" + prenom + ", adresse=" + adresse
-				+ "]";
 	}
 
 	@OneToMany(mappedBy = "client")
@@ -110,4 +115,11 @@ public class Client {
 	public void addCommande(Commande commande) {
 		this.commandes.add(commande);
 	}
+
+	@Override
+	public String toString() {
+		return "Client [id=" + id + ", email=" + email + ", pass=" + pass + ", nom=" + nom + ", prenom=" + prenom
+				+ ", adresse=" + adresse + ", commandes=" + commandes + ", version=" + version + "]";
+	}
+
 }
