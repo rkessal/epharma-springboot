@@ -1,11 +1,13 @@
 package hn.epharma.controller;
 
 import java.util.List;
+
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,6 +31,8 @@ public class ClientController {
 	private ClientRepository clientRepository;
 
 	// méthode pour récupérer tous les clients
+
+	@CrossOrigin
 	@GetMapping("")
 	@JsonView(JsonViews.Common.class)
 	public List<Client> getAllClients() {
@@ -36,6 +40,7 @@ public class ClientController {
 	}
 
 	// méthode pour récupérer un client par ID
+	@CrossOrigin
 	@GetMapping("/{id}")
 	@JsonView(JsonViews.ClientWithCommand.class)
 	public ResponseEntity<Client> getClientById(@PathVariable int id) {
@@ -49,6 +54,8 @@ public class ClientController {
 	}
 
 	// méthode pour ajouter un nouveau client
+
+	@CrossOrigin
 	@PostMapping("")
 	@JsonView(JsonViews.ClientWithCommand.class)
 	public Client addClient(@RequestBody Client client) {
@@ -56,6 +63,7 @@ public class ClientController {
 	}
 
 	// méthode pour mettre à jour un client existant
+	@CrossOrigin
 	@PutMapping("/{id}")
 	@JsonView(JsonViews.ClientWithCommand.class)
 	public ResponseEntity<Client> updateClient(@PathVariable int id, @RequestBody Client clientDetails) {
@@ -74,6 +82,7 @@ public class ClientController {
 	}
 
 	// méthode pour supprimer un client
+	@CrossOrigin
 	@DeleteMapping("/{id}")
 	@JsonView(JsonViews.ClientWithCommand.class)
 	public ResponseEntity<HttpStatus> deleteClient(@PathVariable int id) {
