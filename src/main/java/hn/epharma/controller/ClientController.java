@@ -1,7 +1,6 @@
 package hn.epharma.controller;
 
 import java.util.List;
-
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +21,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import hn.epharma.model.Client;
 import hn.epharma.model.JsonViews;
 import hn.epharma.repo.ClientRepository;
+import hn.rayhan.model.form.LoginForm;
 
 @RestController
 @RequestMapping("clients")
@@ -53,13 +53,36 @@ public class ClientController {
 		}
 	}
 
-	// méthode pour ajouter un nouveau client
+	@CrossOrigin
+	@PostMapping("login")
+	@JsonView(JsonViews.ClientWithCommand.class)
+	public ResponseEntity<Client> login(@RequestBody LoginForm loginForm) {
+		Optional<Client> client = clientRepository.findByEmail(loginForm.getEmail());
+
+		if (client.isPresent()) {
+			Client c = client.get();
+			if (c.getPass().equals(loginForm.getPassword())) {
+				return new ResponseEntity<>(client.get(), HttpStatus.OK);
+			}
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
 
 	@CrossOrigin
 	@PostMapping("")
 	@JsonView(JsonViews.ClientWithCommand.class)
-	public Client addClient(@RequestBody Client client) {
-		return clientRepository.save(client);
+	public ResponseEntity<Client> signup(@RequestBody(required = true) LoginForm loginForm) {
+		Optional<Client> client = clientRepository.findByEmail(loginForm.getEmail());
+
+		if (client.isPresent()) {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		} else {
+			Client c = new Client(loginForm.getEmail(), loginForm.getPassword());
+			clientRepository.save(c);
+			return new ResponseEntity<>(c, HttpStatus.OK);
+		}
 	}
 
 	// méthode pour mettre à jour un client existant

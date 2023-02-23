@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Version;
@@ -16,6 +18,8 @@ public class Client {
 	@JsonView(JsonViews.Common.class)
 	private int id;
 	@JsonView(JsonViews.Common.class)
+	private String email;
+	@JsonView(JsonViews.Common.class)
 	private String pass;
 	@JsonView(JsonViews.Common.class)
 	private String nom;
@@ -27,6 +31,7 @@ public class Client {
 	@JsonView(JsonViews.ClientWithCommand.class)
 	private Collection<Commande> commandes;
 
+	@JsonView(JsonViews.Common.class)
 	private int version;
 
 	@Version
@@ -39,12 +44,21 @@ public class Client {
 	}
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public int getId() {
 		return id;
 	}
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getPass() {
@@ -79,8 +93,9 @@ public class Client {
 		this.adresse = adresse;
 	}
 
-	public Client(int id, String pass, String nom, String prenom, String adresse) {
+	public Client(int id, String pass, String nom, String prenom, String adresse, String email) {
 		this.id = id;
+		this.email = email;
 		this.pass = pass;
 		this.nom = nom;
 		this.prenom = prenom;
@@ -88,14 +103,13 @@ public class Client {
 		this.commandes = new ArrayList<Commande>();
 	}
 
-	public Client() {
-		super();
+	public Client(String email, String pass) {
+		this.email = email;
+		this.pass = pass;
 	}
 
-	@Override
-	public String toString() {
-		return "client [id=" + id + ", pass=" + pass + ", nom=" + nom + ", prenom=" + prenom + ", adresse=" + adresse
-				+ "]";
+	public Client() {
+		super();
 	}
 
 	@OneToMany(mappedBy = "client")
@@ -110,4 +124,11 @@ public class Client {
 	public void addCommande(Commande commande) {
 		this.commandes.add(commande);
 	}
+
+	@Override
+	public String toString() {
+		return "Client [id=" + id + ", email=" + email + ", pass=" + pass + ", nom=" + nom + ", prenom=" + prenom
+				+ ", adresse=" + adresse + ", commandes=" + commandes + ", version=" + version + "]";
+	}
+
 }
