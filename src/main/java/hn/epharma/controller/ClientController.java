@@ -31,6 +31,7 @@ public class ClientController {
 	private ClientRepository clientRepository;
 
 	// méthode pour récupérer tous les clients
+
 	@CrossOrigin
 	@GetMapping("")
 	@JsonView(JsonViews.Common.class)
@@ -53,6 +54,7 @@ public class ClientController {
 	}
 
 	// méthode pour ajouter un nouveau client
+
 	@CrossOrigin
 	@PostMapping("")
 	@JsonView(JsonViews.ClientWithCommand.class)
