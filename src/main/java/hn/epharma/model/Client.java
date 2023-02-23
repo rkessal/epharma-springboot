@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Version;
@@ -29,6 +31,7 @@ public class Client {
 	@JsonView(JsonViews.ClientWithCommand.class)
 	private Collection<Commande> commandes;
 
+	@JsonView(JsonViews.Common.class)
 	private int version;
 
 	@Version
@@ -41,6 +44,7 @@ public class Client {
 	}
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public int getId() {
 		return id;
 	}
@@ -97,6 +101,11 @@ public class Client {
 		this.prenom = prenom;
 		this.adresse = adresse;
 		this.commandes = new ArrayList<Commande>();
+	}
+
+	public Client(String email, String pass) {
+		this.email = email;
+		this.pass = pass;
 	}
 
 	public Client() {

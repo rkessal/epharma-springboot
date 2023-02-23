@@ -54,9 +54,9 @@ public class ClientController {
 	}
 
 	@CrossOrigin
-	@PostMapping("connexion")
+	@PostMapping("login")
 	@JsonView(JsonViews.ClientWithCommand.class)
-	public ResponseEntity<Client> getClientByEmail(@RequestBody LoginForm loginForm) {
+	public ResponseEntity<Client> login(@RequestBody LoginForm loginForm) {
 		Optional<Client> client = clientRepository.findByEmail(loginForm.getEmail());
 
 		if (client.isPresent()) {
@@ -70,13 +70,19 @@ public class ClientController {
 		}
 	}
 
-	// méthode pour ajouter un nouveau client
-
 	@CrossOrigin
 	@PostMapping("")
 	@JsonView(JsonViews.ClientWithCommand.class)
-	public Client addClient(@RequestBody Client client) {
-		return clientRepository.save(client);
+	public ResponseEntity<Client> signup(@RequestBody(required = true) LoginForm loginForm) {
+		Optional<Client> client = clientRepository.findByEmail(loginForm.getEmail());
+
+		if (client.isPresent()) {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		} else {
+			Client c = new Client(loginForm.getEmail(), loginForm.getPassword());
+			clientRepository.save(c);
+			return new ResponseEntity<>(c, HttpStatus.OK);
+		}
 	}
 
 	// méthode pour mettre à jour un client existant
