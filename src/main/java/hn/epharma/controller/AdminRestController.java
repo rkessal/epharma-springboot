@@ -16,10 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.annotation.JsonView;
-
 import hn.epharma.model.Admin;
-import hn.epharma.model.JsonViews;
 import hn.epharma.repo.AdminRepository;
 import hn.rayhan.model.form.LoginForm;
 
@@ -34,7 +31,6 @@ public class AdminRestController {
 
 	@CrossOrigin
 	@GetMapping("")
-	@JsonView(JsonViews.Common.class)
 	public List<Admin> getAllAdmins() {
 		return adminRepository.findAll();
 	}
