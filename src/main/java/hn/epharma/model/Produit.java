@@ -23,12 +23,12 @@ public class Produit {
 	@JsonView(JsonViews.Common.class)
 	private String image;
 	@JsonView(JsonViews.Common.class)
-	private String categorie;
+	private int categorie;
 	private Collection<Ligne> lignes;
 
 	private int version;
 
-	public Produit(int id, String nom, String description, double prix, String image, String categorie) {
+	public Produit(int id, String nom, String description, double prix, String image, int categorie) {
 		super();
 		this.id = id;
 		this.nom = nom;
@@ -83,11 +83,11 @@ public class Produit {
 		this.image = image;
 	}
 
-	public String getCategorie() {
+	public int getCategorie() {
 		return categorie;
 	}
 
-	public void setCategorie(String categorie) {
+	public void setCategorie(int categorie) {
 		this.categorie = categorie;
 	}
 
