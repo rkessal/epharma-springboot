@@ -26,6 +26,7 @@ public class Produit {
 	private int categorie;
 	private Collection<Ligne> lignes;
 
+	@JsonView(JsonViews.Common.class)
 	private int version;
 
 	public Produit(int id, String nom, String description, double prix, String image, int categorie) {
