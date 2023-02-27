@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 public class Commande {
 	@JsonView(JsonViews.Common.class)
 	private int id;
-	@JsonView(JsonViews.CommandeWithLigne.class)
+	@JsonView(JsonViews.Common.class)
 	private Collection<Ligne> lignes;
 	@JsonView(JsonViews.Common.class)
 	private double prixTotal;
