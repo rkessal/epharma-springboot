@@ -19,7 +19,7 @@ public class ConsoleService implements CommandLineRunner {
 		// System.out.println("Hello World !");
 		// testFindAll();
 		//testFindByCategorie();
-		testCreate();
+//		testCreate();
 	}
 
 	public void testFindByCategorie() {
@@ -29,7 +29,7 @@ public class ConsoleService implements CommandLineRunner {
 	public void testFindAll() throws Exception {
 		// TODO Auto-generated method stub
 		System.out.println("FINDALL START !!!");
-		System.out.println(prepo.findAll());
+//		System.out.println(prepo.findAll());
 		System.out.println("FINDALL END !!!");
 	}
 

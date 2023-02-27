@@ -12,4 +12,5 @@ public class JsonViews {
 	public static class CommandeWithLigne extends Common {}
 	
 	public static class LigneWithCommande extends Common {}
+	
 }

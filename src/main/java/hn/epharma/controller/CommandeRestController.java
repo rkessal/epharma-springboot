@@ -39,7 +39,7 @@ public class CommandeRestController {
 
 	@CrossOrigin
 	@GetMapping("{id}")
-	@JsonView(JsonViews.CommandeWithLigne.class)
+	@JsonView(JsonViews.CommandeWithClient.class)
 	public Commande findbyid(@PathVariable(name = "id") int id) {
 		return repo.findById(id).orElse(null);
 	}
@@ -48,11 +48,14 @@ public class CommandeRestController {
 	@PostMapping("")
 	@JsonView(JsonViews.CommandeWithLigne.class)
 	public Commande create(@RequestBody Commande c) {
-		repo.save(c);
+		Commande co = new Commande(null, c.getClient(), c.getPrixTotal());
+		repo.save(co);
 		for (Ligne l : c.getLignes()) {
+			l.setCommande(co);
 			repoL.save(l);
 		}
-		return repo.findById(c.getId()).orElse(null);
+		
+		return repo.findById(co.getId()).orElse(null);
 	}
 
 	@CrossOrigin
@@ -65,6 +68,7 @@ public class CommandeRestController {
 
 	@CrossOrigin
 	@DeleteMapping("/{id}")
+	@JsonView(JsonViews.CommandeWithLigne.class)
 	public void delete(@PathVariable(name = "id") int id) {
 		repo.deleteById(id);
 	}
