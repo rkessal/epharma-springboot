@@ -1,19 +1,28 @@
 package hn.epharma.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Version;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 @Entity
 public class Ligne {
+	@JsonView(JsonViews.Common.class)
 	private int id;
+	@JsonView(JsonViews.Common.class)
 	private Produit produit;
+	@JsonView(JsonViews.Common.class)
 	private int quantite;
-	private Commande commande;
-
+	@JsonView(JsonViews.Common.class)
 	private int version;
+	@JsonView(JsonViews.LigneWithCommande.class)
+	private Commande commande;
 
 	public Ligne() {
 	}
@@ -26,6 +35,7 @@ public class Ligne {
 	}
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public int getId() {
 		return id;
 	}
@@ -61,7 +71,7 @@ public class Ligne {
 		this.version = version;
 	}
 
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "commande_id")
 	public Commande getCommande() {
 		return commande;
