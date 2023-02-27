@@ -24,6 +24,7 @@ public class Produit {
 	private String image;
 	@JsonView(JsonViews.Common.class)
 	private int categorie;
+	@JsonView(JsonViews.Common.class)
 	private Collection<Ligne> lignes;
 
 	@JsonView(JsonViews.Common.class)

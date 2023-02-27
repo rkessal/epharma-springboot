@@ -3,6 +3,8 @@ package hn.epharma.model;
 import java.util.Collection;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -15,30 +17,26 @@ import com.fasterxml.jackson.annotation.JsonView;
 public class Commande {
 	@JsonView(JsonViews.Common.class)
 	private int id;
-
-	@JsonView(JsonViews.Common.class)
+	@JsonView(JsonViews.CommandeWithLigne.class)
 	private Collection<Ligne> lignes;
-
 	@JsonView(JsonViews.Common.class)
 	private double prixTotal;
-
 	@JsonView(JsonViews.CommandeWithClient.class)
 	private Client client;
-
 	@JsonView(JsonViews.Common.class)
 	private int version;
 
 	public Commande() {
 	}
 
-	public Commande(int id, Collection<Ligne> lignes, Client client, double prixTotal) {
-		this.id = id;
+	public Commande(Collection<Ligne> lignes, Client client, double prixTotal) {
 		this.client = client;
 		this.lignes = lignes;
 		this.prixTotal = prixTotal;
 	}
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public int getId() {
 		return id;
 	}
