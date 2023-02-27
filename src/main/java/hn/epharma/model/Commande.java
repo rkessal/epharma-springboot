@@ -21,7 +21,7 @@ public class Commande {
 	private Collection<Ligne> lignes;
 	@JsonView(JsonViews.Common.class)
 	private double prixTotal;
-	@JsonView(JsonViews.CommandeWithClient.class)
+	@JsonView(JsonViews.Common.class)
 	private Client client;
 	@JsonView(JsonViews.Common.class)
 	private int version;
