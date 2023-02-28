@@ -1,6 +1,9 @@
 package hn.epharma.model;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,6 +25,8 @@ public class Commande {
 	@JsonView(JsonViews.Common.class)
 	private double prixTotal;
 	@JsonView(JsonViews.Common.class)
+	private LocalDateTime date;
+	@JsonView(JsonViews.CommandeWithClient.class)
 	private Client client;
 	@JsonView(JsonViews.Common.class)
 	private int version;
@@ -33,6 +38,7 @@ public class Commande {
 		this.client = client;
 		this.lignes = lignes;
 		this.prixTotal = prixTotal;
+		this.date = LocalDateTime.now();
 	}
 
 	@Id
@@ -79,6 +85,14 @@ public class Commande {
 
 	public void setVersion(int version) {
 		this.version = version;
+	}
+
+	public LocalDateTime getDate() {
+		return date;
+	}
+
+	public void setDate(LocalDateTime date) {
+		this.date = date;
 	}
 
 	@Override
