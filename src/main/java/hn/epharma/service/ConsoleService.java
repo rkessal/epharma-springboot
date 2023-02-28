@@ -1,5 +1,7 @@
 package hn.epharma.service;
 
+import java.time.LocalDate;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,8 @@ public class ConsoleService implements CommandLineRunner {
 		// testFindAll();
 		//testFindByCategorie();
 //		testCreate();
+		LocalDate date = LocalDate.now();
+		System.out.println(date);
 	}
 
 	public void testFindByCategorie() {
@@ -31,6 +35,7 @@ public class ConsoleService implements CommandLineRunner {
 		System.out.println("FINDALL START !!!");
 //		System.out.println(prepo.findAll());
 		System.out.println("FINDALL END !!!");
+
 	}
 
 	public void testCreate() throws Exception {
