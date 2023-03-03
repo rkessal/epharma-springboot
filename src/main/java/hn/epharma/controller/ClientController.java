@@ -27,95 +27,95 @@ import hn.rayhan.model.form.LoginForm;
 @RequestMapping("clients")
 public class ClientController {
 
-	@Autowired
-	private ClientRepository clientRepository;
+  @Autowired
+  private ClientRepository clientRepository;
 
-	// méthode pour récupérer tous les clients
+  // méthode pour récupérer tous les clients
 
-	@CrossOrigin
-	@GetMapping("")
-	@JsonView(JsonViews.Common.class)
-	public List<Client> getAllClients() {
-		return clientRepository.findAll();
-	}
+  @CrossOrigin
+  @GetMapping("")
+  @JsonView(JsonViews.Common.class)
+  public List<Client> getAllClients() {
+    return clientRepository.findAll();
+  }
 
-	// méthode pour récupérer un client par ID
-	@CrossOrigin
-	@GetMapping("/{id}")
-	@JsonView(JsonViews.ClientWithCommand.class)
-	public ResponseEntity<Client> getClientById(@PathVariable int id) {
-		Optional<Client> client = clientRepository.findById(id);
+  // méthode pour récupérer un client par ID
+  @CrossOrigin
+  @GetMapping("/{id}")
+  @JsonView(JsonViews.ClientWithCommand.class)
+  public ResponseEntity<Client> getClientById(@PathVariable int id) {
+    Optional<Client> client = clientRepository.findById(id);
 
-		if (client.isPresent()) {
-			return new ResponseEntity<>(client.get(), HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-	}
+    if (client.isPresent()) {
+      return new ResponseEntity<>(client.get(), HttpStatus.OK);
+    } else {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+  }
 
-	@CrossOrigin
-	@PostMapping("login")
-	@JsonView(JsonViews.ClientWithCommand.class)
-	public ResponseEntity<Client> login(@RequestBody LoginForm loginForm) {
-		Optional<Client> client = clientRepository.findByEmail(loginForm.getEmail());
+  @CrossOrigin
+  @PostMapping("login")
+  @JsonView(JsonViews.ClientWithCommand.class)
+  public ResponseEntity<Client> login(@RequestBody LoginForm loginForm) {
+    Optional<Client> client = clientRepository.findByEmail(loginForm.getEmail());
 
-		if (client.isPresent()) {
-			Client c = client.get();
-			if (c.getPass().equals(loginForm.getPassword())) {
-				return new ResponseEntity<>(client.get(), HttpStatus.OK);
-			}
-			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-		} else {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-	}
+    if (client.isPresent()) {
+      Client c = client.get();
+      if (c.getPass().equals(loginForm.getPassword())) {
+        return new ResponseEntity<>(client.get(), HttpStatus.OK);
+      }
+      return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    } else {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+  }
 
-	@CrossOrigin
-	@PostMapping("")
-	@JsonView(JsonViews.ClientWithCommand.class)
-	public ResponseEntity<Client> signup(@RequestBody(required = true) LoginForm loginForm) {
-		Optional<Client> client = clientRepository.findByEmail(loginForm.getEmail());
+  @CrossOrigin
+  @PostMapping("")
+  @JsonView(JsonViews.ClientWithCommand.class)
+  public ResponseEntity<Client> signup(@RequestBody(required = true) LoginForm loginForm) {
+    Optional<Client> client = clientRepository.findByEmail(loginForm.getEmail());
 
-		if (client.isPresent()) {
-			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-		} else {
-			Client c = new Client(loginForm.getEmail(), loginForm.getPassword());
-			clientRepository.save(c);
-			return new ResponseEntity<>(c, HttpStatus.OK);
-		}
-	}
+    if (client.isPresent()) {
+      return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    } else {
+      Client c = new Client(loginForm.getEmail(), loginForm.getPassword());
+      clientRepository.save(c);
+      return new ResponseEntity<>(c, HttpStatus.OK);
+    }
+  }
 
-	// méthode pour mettre à jour un client existant
-	@CrossOrigin
-	@PutMapping("/{id}")
-	@JsonView(JsonViews.ClientWithCommand.class)
-	public ResponseEntity<Client> updateClient(@PathVariable int id, @RequestBody Client clientDetails) {
-		Optional<Client> client = clientRepository.findById(id);
+  // méthode pour mettre à jour un client existant
+  @CrossOrigin
+  @PutMapping("/{id}")
+  @JsonView(JsonViews.ClientWithCommand.class)
+  public ResponseEntity<Client> updateClient(@PathVariable int id, @RequestBody Client clientDetails) {
+    Optional<Client> client = clientRepository.findById(id);
 
-		if (client.isPresent()) {
-			Client updatedClient = client.get();
-			updatedClient.setPass(clientDetails.getPass());
-			updatedClient.setNom(clientDetails.getNom());
-			updatedClient.setPrenom(clientDetails.getPrenom());
-			updatedClient.setAdresse(clientDetails.getAdresse());
-			return new ResponseEntity<>(clientRepository.save(updatedClient), HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-	}
+    if (client.isPresent()) {
+      Client updatedClient = client.get();
+      updatedClient.setPass(clientDetails.getPass());
+      updatedClient.setNom(clientDetails.getNom());
+      updatedClient.setPrenom(clientDetails.getPrenom());
+      updatedClient.setAdresse(clientDetails.getAdresse());
+      return new ResponseEntity<>(clientRepository.save(updatedClient), HttpStatus.OK);
+    } else {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+  }
 
-	// méthode pour supprimer un client
-	@CrossOrigin
-	@DeleteMapping("/{id}")
-	@JsonView(JsonViews.ClientWithCommand.class)
-	public ResponseEntity<HttpStatus> deleteClient(@PathVariable int id) {
-		Optional<Client> client = clientRepository.findById(id);
+  // méthode pour supprimer un client
+  @CrossOrigin
+  @DeleteMapping("/{id}")
+  @JsonView(JsonViews.ClientWithCommand.class)
+  public ResponseEntity<HttpStatus> deleteClient(@PathVariable int id) {
+    Optional<Client> client = clientRepository.findById(id);
 
-		if (client.isPresent()) {
-			clientRepository.delete(client.get());
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-		} else {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-	}
+    if (client.isPresent()) {
+      clientRepository.delete(client.get());
+      return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    } else {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+  }
 }
